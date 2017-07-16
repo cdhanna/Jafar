@@ -19,11 +19,6 @@ public class WorldRenderSystem : MonoBehaviour, IWorldEventHandler {
 	// Use this for initialization
 	void Start () {
 
-        //GenerateCell(true, 0, 0, 0);
-        //GenerateCell(true, 1, 0, 0);
-        //GenerateCell(true, 2, 0, 0);
-
-        //Invoke("GenerateWorld", 1);
         _hook = Events.Watch<IWorldEventHandler>(this); 
 	}
 	
@@ -43,6 +38,8 @@ public class WorldRenderSystem : MonoBehaviour, IWorldEventHandler {
         var prefab = open == true ? OpenPrefab : FilledPrefab;
         var gameObject = Instantiate(prefab, transform);
         gameObject.transform.localPosition = new Vector3(coord.X * 2, coord.Floor * 2, coord.Y * 2);
+
+        //gameObject.GetComponent<MeshRenderer>().material.color = open ? Color.red : Color.blue;
 
         return gameObject;
     }
