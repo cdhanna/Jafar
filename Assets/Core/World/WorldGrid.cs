@@ -30,12 +30,7 @@ namespace Assets.Core.World {
                 for (int y = 0; y < Height; y++)
                 {
                     var coord = new CellCoordinate(x, y);
-                    var status = CellStatus.FILLED;
-                    if (y % 2 == 0 && y > 4 && y < 26 && x > 2 && x < 26)
-                    {
-                        status = CellStatus.OPEN;
-                    }
-                    _world.Add(coord, new Cell(status, CellType.DUNGEON));
+                    _world.Add(coord, new Cell(CellStatus.FILLED, CellType.DUNGEON));
                 }
             }
 
