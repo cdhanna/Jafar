@@ -7,6 +7,6 @@ namespace Assets.Core.Events
 {
     public interface IEventHandler
     {
-        void GenericMethod();
+        //void GenericMethod();
     }
 }

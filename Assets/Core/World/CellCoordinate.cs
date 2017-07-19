@@ -7,6 +7,11 @@ namespace Assets.Core.World
 {
     public struct CellCoordinate
     {
+        public static CellCoordinate New(int x, int y, int floor = 0)
+        {
+            return new CellCoordinate(x, y, floor);
+        }
+
         public int X { get; set; }
         public int Y { get; set; }
         public int Floor { get; set; }
@@ -16,6 +21,31 @@ namespace Assets.Core.World
             X = x;
             Y = y;
             Floor = floor;
+        }
+
+        public List<CellCoordinate> GetAllNeighbors()
+        {
+            return new List<CellCoordinate>(new CellCoordinate[]
+            {
+                new CellCoordinate(X + 1, Y, Floor),
+                new CellCoordinate(X + 1, Y + 1, Floor),
+                new CellCoordinate(X , Y + 1, Floor),
+                new CellCoordinate(X - 1, Y + 1, Floor),
+                new CellCoordinate(X - 1, Y, Floor),
+                new CellCoordinate(X - 1, Y - 1, Floor),
+                new CellCoordinate(X , Y - 1, Floor),
+                new CellCoordinate(X + 1, Y - 1, Floor),
+            });
+        }
+        public List<CellCoordinate> GetSideNeighbors()
+        {
+            return new List<CellCoordinate>(new CellCoordinate[]
+            {
+                new CellCoordinate(X + 1, Y, Floor),
+                new CellCoordinate(X , Y + 1, Floor),
+                new CellCoordinate(X - 1, Y, Floor),
+                new CellCoordinate(X , Y - 1, Floor),
+            });
         }
 
         public override bool Equals(object obj)
@@ -30,6 +60,11 @@ namespace Assets.Core.World
             {
                 return false;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode(); // TODO, make more complex hashcode? maybe?
         }
     }
 }

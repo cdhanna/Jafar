@@ -30,14 +30,13 @@ namespace Assets.Core.Events
             
         }
 
-        public EventManagerHook<T> Watch<T>(T handler, string channel="default")
+        public EventManagerHook<T> CreateHook<T>(T handler, string channel="default")
             where T : IEventHandler
         {
             if (!channel.Equals("default"))
             {
                 throw new NotImplementedException("Multi channel not supported yet");
             }
-            
             var hook = new EventManagerHook<T>(handler, _collections, this);
             return hook;
 
@@ -60,7 +59,7 @@ namespace Assets.Core.Events
     {
         private List<NumberedEvent<T>> _events = new List<NumberedEvent<T>>();
         private long _number = 0;
-        private int _maxEvents = 10;
+        private int _maxEvents = 500;
 
         public void Add(object evt)
         {
@@ -109,7 +108,7 @@ namespace Assets.Core.Events
             _handler = handler;
         }
 
-        public void Check()
+        public void CheckForEvents()
         {
             var t = typeof(T);
             if (_collections.ContainsKey(t) == false)
