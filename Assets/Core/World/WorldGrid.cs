@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 namespace Assets.Core.World {
     public class WorldGrid : MonoBehaviour {
@@ -93,6 +94,16 @@ namespace Assets.Core.World {
             _world[coord] = cell;
             Events.Emit<IWorldEventHandler>(h => h.OnCellChanged(coord, existingCell, cell));
             return true;
+        }
+
+        public void saveToJSON(String filePath)
+        {
+            using (StreamWriter file = File.CreateText(@"D:\path.txt"))
+            {
+                //JsonSerializer serializer = new JsonSerializer();
+                //serialize object directly into file stream
+                //serializer.Serialize(file, _data);
+            }
         }
 
     }
