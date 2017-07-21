@@ -36,7 +36,6 @@ namespace Assets.Core.World {
             }
 
             // fire event 
-            //Events.Emit(new IWorldReadyEvent() { });
             Events.Emit<IWorldEventHandler>(h => h.OnWorldCreated(this));
         }
 
@@ -44,12 +43,7 @@ namespace Assets.Core.World {
         void Update() {
 
         }
-
-        //void SetCell(int x, int y, int floor, bool open)
-        //{
-
-        //}
-
+        
         public bool IsValidCoordinate(CellCoordinate coord)
         {
             return coord.X >= 0
