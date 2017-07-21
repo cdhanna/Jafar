@@ -92,7 +92,7 @@ namespace Assets.Core.World {
             // TODO perhaps validate the new cell?
 
             _world[coord] = cell;
-            Events.Emit<IWorldEventHandler>(h => h.OnCellChanged(coord, existingCell, cell));
+            Events.Emit<IWorldEventHandler>(h => h.OnCellChanged(this, coord, existingCell, cell));
             return true;
         }
 

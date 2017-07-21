@@ -9,6 +9,7 @@ namespace Assets.Core.World
     public interface IWorldEventHandler : IEventHandler
     {
         void OnWorldCreated(WorldGrid world);
-        void OnCellChanged(CellCoordinate coord, Cell old, Cell next);
+        void OnCellChanged(WorldGrid world, CellCoordinate coord, Cell old, Cell next);
     }
+   
 }

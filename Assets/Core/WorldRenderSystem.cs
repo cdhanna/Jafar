@@ -7,7 +7,6 @@ using Assets.Core.Events;
 
 public class WorldRenderSystem : MonoBehaviour, IWorldEventHandler {
 
-    public WorldGrid Grid;
     public EventManager Events;
     public GameObject OpenPrefab;
     public GameObject FilledPrefab;
@@ -19,13 +18,13 @@ public class WorldRenderSystem : MonoBehaviour, IWorldEventHandler {
 	// Use this for initialization
 	void Start () {
 
-        _hook = Events.Watch<IWorldEventHandler>(this); 
+        _hook = Events.CreateHook<IWorldEventHandler>(this); 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        _hook.Check();
+        _hook.CheckForEvents();
 	}
 
     public void GenerateWorld()
@@ -46,12 +45,18 @@ public class WorldRenderSystem : MonoBehaviour, IWorldEventHandler {
 
     public void OnWorldCreated(WorldGrid world)
     {
-        //Debug.Log("World created");
+        Debug.Log("World created");
         world.ForAllValidCoords(coord =>
        {
            var cell = world.GetCell(coord);
            var gameObject = GenerateCell(cell.Status == CellStatus.OPEN, coord);
-           _objects.Add(coord, gameObject);
+           if (_objects.ContainsKey(coord) == false)
+           {
+               _objects.Add(coord, gameObject);
+           } else
+           {
+               _objects[coord] = gameObject;
+           } 
 
        });
         
@@ -62,18 +67,26 @@ public class WorldRenderSystem : MonoBehaviour, IWorldEventHandler {
         //throw new NotImplementedException();
     }
 
-    public void OnCellChanged(CellCoordinate coord, Cell old, Cell next)
+    public void OnCellChanged(WorldGrid world, CellCoordinate coord, Cell old, Cell next)
     {
         //Debug.Log("Need to change " + coord.X + " , " + coord.Y + " to " + next.Status);
         //throw new NotImplementedException();
 
-        // destroy old object
-        var oldGameObject = _objects[coord];
-        Destroy(oldGameObject);
+        if (_objects.ContainsKey(coord))
+        {
 
-        // add the new one 
-        var nextGameObject = GenerateCell(next.Status == CellStatus.OPEN, coord);
-        _objects[coord] = nextGameObject;
+            // destroy old object
+            var oldGameObject = _objects[coord];
+            Destroy(oldGameObject);
+
+            // add the new one 
+            var nextGameObject = GenerateCell(next.Status == CellStatus.OPEN, coord);
+            _objects[coord] = nextGameObject;
+        } else
+        {
+            var nextGameObject = GenerateCell(next.Status == CellStatus.OPEN, coord);
+            _objects.Add(coord, nextGameObject);
+        }
 
 
     }

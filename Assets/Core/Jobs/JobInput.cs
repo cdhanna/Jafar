@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Core.Events
+namespace Assets.Core.Jobs
 {
-    public interface IEventHandler
+    public class JobInput
     {
-        //void GenericMethod();
+        public string Name { get; set; }
     }
 }
